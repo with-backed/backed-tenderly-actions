@@ -4,14 +4,18 @@ actions:
     runtime: v1
     sources: actions
     specs:
-      example:
+      defaultHandler:
         description: Default transaction handler, catch all events
         function: transactionHandlers:defaultHandleTransaction
-        type: transaction
+        trigger:
+          type: transaction
           transaction:
             status:
-              - success
+              - confirmed10
             filters:
               - network: 4
+                to: 0x9231Bec810d6607b952B9227A9b0f85b87172aF4
                 contract:
                   address: 0x9231Bec810d6607b952B9227A9b0f85b87172aF4
+project_slug: nft-pawn-shop/rinkeby-loan-facilitator
+provider: ""
