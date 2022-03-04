@@ -1,0 +1,17 @@
+account_id: ""
+actions:
+  nft-pawn-shop/rinkeby-loan-facilitator:
+    runtime: v1
+    sources: actions
+    specs:
+      example:
+        description: Default transaction handler, catch all events
+        function: transactionHandlers:defaultHandleTransaction
+        type: transaction
+          transaction:
+            status:
+              - success
+            filters:
+              - network: 4
+                contract:
+                  address: 0x9231Bec810d6607b952B9227A9b0f85b87172aF4
