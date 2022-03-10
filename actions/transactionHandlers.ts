@@ -9,13 +9,13 @@ import { SQS } from 'aws-sdk';
 
 import { abi } from './abis/NFTLoanFacilitator';
 
-const IS_INTERESTING_EVENT: { [key: string]: boolean } = {
-	"CreateLoan": true,
-	"Repay": true,
-	"SeizeCollateral": true,
-	"UnderwriteLoan": true,
-	"BuyoutUnderwriter": true,
-	"Close": true,
+const RELEVANT_EVENTS_MAPPING: { [key: string]: string } = {
+	"CreateLoan": "CreateEvent",
+	"Repay": "RepaymentEvent",
+	"SeizeCollateral": "CollateralSeizureEvent",
+	"UnderwriteLoan": "LendEvent",
+	"BuyoutUnderwriter": "BuyoutEvent",
+	"Close": "CloseEvent",
 }
 
 export const defaultHandleTransaction: ActionFn = async (context: Context, event: Event) => {
@@ -26,9 +26,10 @@ export const defaultHandleTransaction: ActionFn = async (context: Context, event
 	for (const log of transactionEvent.logs) {
 		try {
 			const event = iface.parseLog(log)
-			if (IS_INTERESTING_EVENT[event.name]) {
+			const mappedEventName = RELEVANT_EVENTS_MAPPING[event.name]
+			if (mappedEventName) {
 				// notify 
-				await pushEvent(event.name, transactionEvent.hash)
+				await pushEvent(context, mappedEventName, transactionEvent.hash)
 			}
 		} catch (err) {
 			// likely there is an event, e.g. Transfer
@@ -38,17 +39,22 @@ export const defaultHandleTransaction: ActionFn = async (context: Context, event
 	}
 }
 
-const pushEvent = async (eventName: string, txHash: string) => {
+const pushEvent = async (context: Context, eventName: string, txHash: string) => {
 	// TODO
+	const accessKeyId = await context.secrets.get('AWS_ACCESS_KEY')
+	const secretAccessKey = await context.secrets.get('AWS_SECRET_KEY')
+	const queueUrl = await context.secrets.get('EVENTS_SQS_URL')
+
 	const sqs = new SQS({
 		region: 'us-east-1',
 		credentials: {
-			accessKeyId: process.env.AWS_ACCESS_KEY!,
-			secretAccessKey: process.env.AWS_SECRET_KEY!,
+			accessKeyId,
+			secretAccessKey,
 		},
 	})
+
 	const res = await sqs.sendMessage({
-		QueueUrl: process.env.EVENTS_SQS_URL!,
+		QueueUrl: queueUrl,
 		MessageBody: JSON.stringify({
 			eventName,
 			txHash
