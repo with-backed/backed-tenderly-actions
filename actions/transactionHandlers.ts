@@ -40,7 +40,6 @@ export const defaultHandleTransaction: ActionFn = async (context: Context, event
 }
 
 const pushEvent = async (context: Context, eventName: string, txHash: string) => {
-	// TODO
 	const accessKeyId = await context.secrets.get('AWS_ACCESS_KEY')
 	const secretAccessKey = await context.secrets.get('AWS_SECRET_KEY')
 	const queueUrl = await context.secrets.get('EVENTS_SQS_URL')
