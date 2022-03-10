@@ -28,7 +28,7 @@ export const defaultHandleTransaction: ActionFn = async (context: Context, event
 			const event = iface.parseLog(log)
 			if (IS_INTERESTING_EVENT[event.name]) {
 				// notify 
-				pushEvent(event.name, transactionEvent.hash)
+				await pushEvent(event.name, transactionEvent.hash)
 			}
 		} catch (err) {
 			// likely there is an event, e.g. Transfer
@@ -38,7 +38,7 @@ export const defaultHandleTransaction: ActionFn = async (context: Context, event
 	}
 }
 
-const pushEvent = (eventName: string, txHash: string) => {
+const pushEvent = async (eventName: string, txHash: string) => {
 	// TODO
 	const sqs = new SQS({
 		region: 'us-east-1',
@@ -47,13 +47,16 @@ const pushEvent = (eventName: string, txHash: string) => {
 			secretAccessKey: process.env.AWS_SECRET_KEY!,
 		},
 	})
-	sqs.sendMessage({
+	const res = await sqs.sendMessage({
 		QueueUrl: process.env.EVENTS_SQS_URL!,
 		MessageBody: JSON.stringify({
 			eventName,
 			txHash
 		})
-	})
+	}).promise()
+	if (!!res.$response.error) {
+		console.error(`error sending message to SQS ${res.$response.error.message}`)
+	}
 
 	console.log(
 		`
