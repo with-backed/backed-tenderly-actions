@@ -14,8 +14,8 @@ actions:
               - confirmed10
             filters:
               - network: 4
-                to: 0x9231Bec810d6607b952B9227A9b0f85b87172aF4
+                to: 0x5ebf2dc9c4f1142c4ff2bb3865b348d44847d28d
                 contract:
-                  address: 0x9231Bec810d6607b952B9227A9b0f85b87172aF4
+                  address: 0x5ebf2dc9c4f1142c4ff2bb3865b348d44847d28d
 project_slug: nft-pawn-shop/rinkeby-loan-facilitator
 provider: ""
