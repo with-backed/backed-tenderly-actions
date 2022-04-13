@@ -42,6 +42,7 @@ const pushEvent = async (
   eventName: string,
   txHash: string
 ) => {
+  console.log("calling push event");
   const accessKeyId = await context.secrets.get("AWS_ACCESS_KEY");
   const secretAccessKey = await context.secrets.get("AWS_SECRET_KEY");
   const queueUrl = await context.secrets.get("EVENTS_SQS_URL");
