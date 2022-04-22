@@ -1,6 +1,6 @@
 account_id: ""
 actions:
-  nft-pawn-shop/rinkeby-loan-facilitator:
+  with-backed/loan-facilitator-rinkeby:
     runtime: v1
     sources: actions
     specs:
@@ -14,8 +14,8 @@ actions:
               - confirmed10
             filters:
               - network: 4
-                to: 0x0baccdd0dc70cc8de152d65def00d6fbe4c3b785
+                to: 0x0baccdd01ff681b07334362387559ba140bd7b2a
                 contract:
-                  address: 0x0baccdd0dc70cc8de152d65def00d6fbe4c3b785
-project_slug: nft-pawn-shop/rinkeby-loan-facilitator
+                  address: 0x0baccdd01ff681b07334362387559ba140bd7b2a
+project_slug: with-backed/loan-facilitator-rinkeby
 provider: ""
