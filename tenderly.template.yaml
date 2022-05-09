@@ -1,6 +1,6 @@
 account_id: ""
 actions:
-  with-backed/loan-facilitator-mainnet:
+  with-backed/loan-facilitator-{{network_name}}:
     runtime: v1
     sources: actions
     specs:
@@ -13,9 +13,9 @@ actions:
             status:
               - confirmed10
             filters:
-              - network: 1
-                to: 0x0baccdd05a729ab8b56e09ef19c15f953e10885f
+              - network: {{network_id}}
+                to: {{contract_address}}
                 contract:
-                  address: 0x0baccdd05a729ab8b56e09ef19c15f953e10885f
-project_slug: with-backed/loan-facilitator-mainnet
+                  address: {{contract_address}}
+project_slug: with-backed/loan-facilitator-{{network_name}}
 provider: ""

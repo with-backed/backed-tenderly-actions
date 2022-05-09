@@ -9,7 +9,7 @@ const RELEVANT_EVENTS_MAPPING: { [key: string]: string } = {
   Repay: "RepaymentEvent",
   SeizeCollateral: "CollateralSeizureEvent",
   Lend: "LendEvent",
-  BuyoutUnderwriter: "BuyoutEvent",
+  BuyoutLender: "BuyoutEvent",
   Close: "CloseEvent",
 };
 
@@ -42,7 +42,6 @@ const pushEvent = async (
   eventName: string,
   txHash: string
 ) => {
-  console.log("calling push event");
   const accessKeyId = await context.secrets.get("AWS_ACCESS_KEY");
   const secretAccessKey = await context.secrets.get("AWS_SECRET_KEY");
   const queueUrl = await context.secrets.get("EVENTS_SQS_URL");
@@ -69,11 +68,4 @@ const pushEvent = async (
       `error sending message to SQS ${res.$response.error.message}`
     );
   }
-
-  console.log(
-    `
-		eventName: ${eventName},
-		transactionHash: ${txHash}
-		`
-  );
 };
