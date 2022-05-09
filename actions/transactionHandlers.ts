@@ -60,6 +60,7 @@ const pushEvent = async (
       MessageBody: JSON.stringify({
         eventName,
         txHash,
+        network: await context.secrets.get("NETWORK"),
       }),
     })
     .promise();
