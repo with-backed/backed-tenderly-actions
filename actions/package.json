@@ -3,7 +3,9 @@
   "scripts": {
     "build": "tsc",
     "prepare:rinkeby": "mustache ../config/rinkeby.json ../tenderly.template.yaml > ../tenderly.yaml",
-    "prepare:mainnet": "mustache ../config/mainnet.json ../tenderly.template.yaml > ../tenderly.yaml"
+    "prepare:mainnet": "mustache ../config/mainnet.json ../tenderly.template.yaml > ../tenderly.yaml",
+    "prepare:optimism": "mustache ../config/optimism.json ../tenderly.template.yaml > ../tenderly.yaml",
+    "prepare:polygon": "mustache ../config/polygon.json ../tenderly.template.yaml > ../tenderly.yaml"
   },
   "devDependencies": {
     "@types/node": "^17.0.21",
